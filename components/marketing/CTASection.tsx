@@ -21,13 +21,12 @@ export function CTASection() {
             </span>
 
             <h2 className="text-4xl font-bold tracking-tight text-[#e1e3e0] mb-4">
-              Ready to automate your{" "}
-              <span className="text-[#4de082]">data flow?</span>
+              Ready to Take Control of{" "}
+              <span className="text-[#4de082]">Web Scraping?</span>
             </h2>
             <p className="text-[#89938d] max-w-xl mx-auto mb-10 text-base">
-              Join 500+ enterprises using CrawlMindAI to drive business
-              decisions with high-fidelity web data. We are currently
-              fine-tuning our AI models for Enterprise-grade stability.
+              🎁 100 Free Credits on Signup<br/>
+              🚀 Start instantly
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -35,7 +34,7 @@ export function CTASection() {
                 href="/sign-in"
                 className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[#4de082] px-8 py-3.5 text-sm font-semibold text-[#003919] transition-all duration-200 hover:bg-[#6dfe9c] hover:shadow-[0_0_40px_rgba(77,224,130,0.3)]"
               >
-                Start Free — 200 Credits
+                Start Free Trial
                 <ArrowRight
                   size={16}
                   className="transition-transform group-hover:translate-x-1"
@@ -50,7 +49,7 @@ export function CTASection() {
             </div>
 
             <p className="mt-5 text-xs text-[#89938d]">
-              No credit card required · Cancel anytime · GDPR compliant
+              💳 No credit card required
             </p>
           </div>
         </div>

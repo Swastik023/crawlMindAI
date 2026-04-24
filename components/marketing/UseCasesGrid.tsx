@@ -1,50 +1,44 @@
 const useCases = [
   {
     vertical: "E-Commerce",
-    title: "Price Monitoring",
-    description:
-      "Real-time competitor price tracking across millions of SKUs with automated alerting and historical trend analysis.",
-    tag: "Live",
-    tagColor: "#4de082",
-  },
-  {
-    vertical: "Finance",
-    title: "News & Sentiment",
-    description:
-      "Aggregating global news sources and performing NLP-based sentiment analysis for market impact reports.",
-    tag: "AI",
-    tagColor: "#06b6d4",
-  },
-  {
-    vertical: "B2B Sales",
-    title: "Lead Generation",
-    description:
-      "Automatically identifying new prospects from professional networks and business directories at scale.",
-    tag: "Auto",
-    tagColor: "#95d3ba",
-  },
-  {
-    vertical: "Competitive Intel",
-    title: "Competitor Tracking",
-    description:
-      "Monitor competitor product launches, inventory levels, and visual changes without getting blocked.",
-    tag: "Smart",
+    title: "Monitor Pricing & Reviews",
+    description: "Monitor pricing, product availability, and customer reviews.",
+    tag: "Price comparison, Product monitoring",
     tagColor: "#4de082",
   },
   {
     vertical: "Real Estate",
-    title: "Listing Aggregation",
-    description:
-      "Market trend analysis and property listing aggregation across all major platforms in one unified feed.",
-    tag: "Bulk",
+    title: "Track Listings & Trends",
+    description: "Track property listings and analyze market trends.",
+    tag: "Market analysis, Pricing trends",
     tagColor: "#06b6d4",
   },
   {
-    vertical: "Marketing",
-    title: "Ad Verification",
-    description:
-      "Ad placement verification and social media trend monitoring across channels to protect brand integrity.",
-    tag: "Shield",
+    vertical: "Finance",
+    title: "Extract Financial Data",
+    description: "Extract financial data and monitor market movements.",
+    tag: "Stock data tracking, News aggregation",
+    tagColor: "#95d3ba",
+  },
+  {
+    vertical: "Travel",
+    title: "Compare Prices & Availability",
+    description: "Compare prices and track availability across booking platforms.",
+    tag: "Price comparison, Deal monitoring",
+    tagColor: "#4de082",
+  },
+  {
+    vertical: "Job Recruitment",
+    title: "Aggregate Job Listings",
+    description: "Aggregate job listings and analyze hiring trends.",
+    tag: "Job aggregation, Salary insights",
+    tagColor: "#06b6d4",
+  },
+  {
+    vertical: "News & Media",
+    title: "Monitor News & Social",
+    description: "Monitor news, social media, and trending topics.",
+    tag: "Trend monitoring, Media analysis",
     tagColor: "#95d3ba",
   },
 ];
@@ -56,17 +50,15 @@ export function UseCasesGrid() {
         {/* Label */}
         <div className="flex justify-center mb-5">
           <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[#06b6d4] bg-[#06b6d4]/10 border border-[#06b6d4]/20 px-4 py-1.5 rounded-full">
-            Use Cases
+            Solutions by Industry
           </span>
         </div>
 
         <h2 className="text-center text-4xl font-bold tracking-tight text-[#e1e3e0] mb-4">
-          Built for{" "}
-          <span className="text-[#4de082]">every vertical</span>
+          Tailored <span className="text-[#4de082]">automation workflows</span>
         </h2>
         <p className="text-center text-[#89938d] max-w-2xl mx-auto mb-16 text-base">
-          From e-commerce price intelligence to financial alternative data —
-          CrawlMindAI powers mission-critical data pipelines across industries.
+          ScrapeFlow adapts to industry-specific challenges with tailored automation workflows.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

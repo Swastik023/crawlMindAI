@@ -10,32 +10,40 @@ import {
 const features = [
   {
     icon: Workflow,
-    title: "Workflow Builder",
-    description:
-      "Visual drag-and-drop interface for complex multi-step scraping logic. Chain actions, add conditions, and handle errors with ease.",
+    title: "Visual Workflow Editor",
+    description: "Build workflows visually using a drag-and-drop interface. No Code Required.",
     color: "#4de082",
-  },
-  {
-    icon: Globe,
-    title: "Browser Control",
-    description:
-      "Full headless browser automation. Bypass captchas, handle SPAs, and mimic human interaction patterns seamlessly.",
-    color: "#06b6d4",
   },
   {
     icon: BrainCircuit,
-    title: "AI Extraction",
-    description:
-      "Zero-config data parsing using LLMs. Describe the data you want in plain English and let CrawlMind handle the selectors.",
-    color: "#95d3ba",
+    title: "AI-Powered Extraction",
+    description: "Smart parsing of complex pages using LLMs.",
+    color: "#06b6d4",
   },
   {
     icon: Activity,
-    title: "Managed Pipelines",
-    description:
-      "Schedule runs, monitor health in real-time, and get alerted when site structures change. Never miss a data update.",
+    title: "Scheduling & Monitoring",
+    description: "Automate and track workflows. Get alerted when site structures change.",
+    color: "#95d3ba",
+    highlights: ["24/7 Monitoring & Alerts", "99.9% Success Rate"],
+  },
+  {
+    icon: Globe,
+    title: "Advanced Selectors",
+    description: "Precise element targeting for the most complex sites.",
     color: "#4de082",
-    highlights: ["99.9% Success Rate", "Real-time Dashboard"],
+  },
+  {
+    icon: CheckCircle2,
+    title: "Data Storage",
+    description: "Organized, structured data handling.",
+    color: "#06b6d4",
+  },
+  {
+    icon: Workflow,
+    title: "Webhooks",
+    description: "Integrate with external services and send data anywhere.",
+    color: "#95d3ba",
   },
 ];
 
@@ -53,15 +61,14 @@ export function FeaturesSection() {
       </div>
 
       <h2 className="text-center text-4xl font-bold tracking-tight text-[#e1e3e0] mb-4">
-        Powerful primitives for the{" "}
-        <span className="text-[#95d3ba]">modern web</span>
+        Visual Web Scraping —{" "}
+        <span className="text-[#95d3ba]">No Code Required</span>
       </h2>
       <p className="text-center text-[#89938d] max-w-xl mx-auto mb-16 text-base">
-        Everything you need to handle the complexity of real-world data
-        extraction at scale.
+        Design powerful scraping workflows using a drag-and-drop interface.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {features.map((feature) => {
           const Icon = feature.icon;
           return (

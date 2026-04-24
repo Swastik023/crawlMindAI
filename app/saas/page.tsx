@@ -1,7 +1,9 @@
 import { MarketingNav } from "@/components/marketing/MarketingNav";
 import { HeroSection } from "@/components/marketing/HeroSection";
 import { FeaturesSection } from "@/components/marketing/FeaturesSection";
+import { PopularUseCases } from "@/components/marketing/PopularUseCases";
 import { UseCasesGrid } from "@/components/marketing/UseCasesGrid";
+import { CommunitySection } from "@/components/marketing/CommunitySection";
 import { Testimonials } from "@/components/marketing/Testimonials";
 import { CTASection } from "@/components/marketing/CTASection";
 import { Footer } from "@/components/marketing/Footer";
@@ -26,7 +28,9 @@ export default function SaasPage() {
       <MarketingNav />
       <HeroSection />
       <FeaturesSection />
+      <PopularUseCases />
       <UseCasesGrid />
+      <CommunitySection />
       <Testimonials />
       <CTASection />
       <Footer />
