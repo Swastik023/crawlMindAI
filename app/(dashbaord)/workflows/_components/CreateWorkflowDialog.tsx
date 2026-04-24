@@ -21,13 +21,42 @@ import {
 } from "@/schema/workflows";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { Layers2Icon, Loader2 } from "lucide-react";
+import { Layers2Icon, Loader2, Mic, MicOff } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 function CreateWorkflowDialog({ triggeredText }: { triggeredText?: string }) {
   const [open, setOpen] = useState(false);
+  const [isListeningName, setIsListeningName] = useState(false);
+  const [isListeningDesc, setIsListeningDesc] = useState(false);
+
+  // 🎤 GOOGLE SPEECH INTEGRATION
+  const toggleListening = useCallback((field: any, listeningState: boolean, setListeningState: (val: boolean) => void) => {
+    if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
+      alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+    if (listeningState) {
+      setListeningState(false);
+      return;
+    }
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => setListeningState(true);
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      field.onChange(field.value ? `${field.value} ${transcript}` : transcript);
+    };
+    recognition.onerror = () => setListeningState(false);
+    recognition.onend = () => setListeningState(false);
+
+    recognition.start();
+  }, []);
 
   const form = useForm<createWorkflowShemaType>({
     resolver: zodResolver(createWorkflowShema),
@@ -83,7 +112,17 @@ function CreateWorkflowDialog({ triggeredText }: { triggeredText?: string }) {
                       Name <p className="text-xs text-primary">(required)</p>
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <div className="relative flex items-center">
+                        <Input {...field} className="pr-8" />
+                        <button
+                          type="button"
+                          onClick={() => toggleListening(field, isListeningName, setIsListeningName)}
+                          className={`absolute right-2 p-1 rounded-md hover:bg-muted ${isListeningName ? 'text-red-500 animate-pulse' : 'text-muted-foreground'}`}
+                          title="Use Speech to Text"
+                        >
+                          {isListeningName ? <MicOff size={14} /> : <Mic size={14} />}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormDescription>
                       Choose a descriptive and a unique name
@@ -104,7 +143,17 @@ function CreateWorkflowDialog({ triggeredText }: { triggeredText?: string }) {
                       </p>
                     </FormLabel>
                     <FormControl>
-                      <Textarea {...field} className="resize-none" />
+                      <div className="relative">
+                        <Textarea {...field} className="resize-none pr-8" />
+                        <button
+                          type="button"
+                          onClick={() => toggleListening(field, isListeningDesc, setIsListeningDesc)}
+                          className={`absolute top-2 right-2 p-1 rounded-md hover:bg-muted ${isListeningDesc ? 'text-red-500 animate-pulse' : 'text-muted-foreground'}`}
+                          title="Use Speech to Text"
+                        >
+                          {isListeningDesc ? <MicOff size={14} /> : <Mic size={14} />}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormDescription>
                       Provide a brief description of what your workflow does.
