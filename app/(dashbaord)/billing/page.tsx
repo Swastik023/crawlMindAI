@@ -20,7 +20,7 @@ import InvoiceButton from "./_components/InvoiceButton";
 function BillingPage() {
   return (
     <div className="mx-auto p-4 space-y-8">
-      <h1 className="text-3xl font-bold">Billing</h1>
+      <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">Billing</h1>
       <Suspense fallback={<Skeleton className="h-[166px] w-full" />}>
         <BalanceCard />
       </Suspense>

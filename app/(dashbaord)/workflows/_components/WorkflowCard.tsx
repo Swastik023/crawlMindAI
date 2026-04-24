@@ -37,12 +37,12 @@ const statusColor = {
 function WorkflowCard({ workflow }: { workflow: Workflow }) {
   const isDraft = workflow.status === WorkflowStatus.DRAFT;
   return (
-    <Card className="border border-separate shadow-sm rounded-lg overflow-hidden hover:shadow-md dark:shadow-primary/30 group/card">
+    <Card className="border border-border shadow-sm rounded-xl overflow-hidden card-hover dark:shadow-primary/20 group/card">
       <CardContent className="p-4 flex items-center justify-between h-[100px]">
         <div className="flex items-center justify-end space-x-3">
           <div
             className={cn(
-              "w-10 h-10 rounded-full flex items-center justify-center",
+              "w-10 h-10 rounded-xl flex items-center justify-center shadow-sm",
               statusColor[workflow.status as WorkflowStatus]
             )}
           >
@@ -154,7 +154,7 @@ function LastRunDetails({ workflow }: { workflow: Workflow }) {
     nextRunAt && formatInTimeZone(nextRunAt, "UTC", "HH:mm");
 
   return (
-    <div className="bg-primary/5 px-4 py-1 flex justify-between items-center text-muted-foreground">
+    <div className="bg-primary/5 dark:bg-primary/10 px-4 py-1.5 flex justify-between items-center text-muted-foreground border-t border-border/50">
       <div className="flex items-center text-sm gap-2">
         {lastRunAt && (
           <Link

@@ -36,9 +36,9 @@ function NodeCard({
     <div
       onDoubleClick={centerNode}
       className={cn(
-        "rounded-md cursor-pointer bg-background border-2 border-separate w-[420px] text-xs  gap-1 flex-col",
-        isSelected && "border-primary",
-        hasInvalidInputs && "border-destructive border-2"
+        "rounded-xl cursor-pointer bg-background border border-border shadow-md w-[420px] text-xs gap-1 flex-col transition-shadow duration-150",
+        isSelected && "border-primary border-2 shadow-primary/20 shadow-lg",
+        hasInvalidInputs && "border-destructive border-2 shadow-destructive/10 shadow-lg"
       )}
     >
       {children}

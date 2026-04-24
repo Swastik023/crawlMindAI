@@ -21,14 +21,14 @@ async function UserWorkflows() {
   }
   if (workflows.length === 0) {
     return (
-      <div className="flex flex-col gap-4 h-full items-center">
-        <div className="rounded-full bg-accent w-20 h-20 flex items-center justify-center">
-          <InboxIcon size={40} className="stroke-primary" />
+      <div className="flex flex-col gap-4 h-full items-center py-16">
+        <div className="rounded-2xl bg-primary/10 w-20 h-20 flex items-center justify-center ring-1 ring-primary/20 shadow-lg shadow-primary/5">
+          <InboxIcon size={36} className="stroke-primary" />
         </div>
-        <div className="flex flex-col gap-1 text-center">
-          <p className="font-bold">No workflow created yet</p>
+        <div className="flex flex-col gap-2 text-center max-w-xs">
+          <p className="font-bold text-lg">No workflows yet</p>
           <p className="text-sm text-muted-foreground">
-            Click the button below to create your first workflow
+            Create your first AI-powered scraping workflow to get started.
           </p>
         </div>
         <CreateWorkflowDialog triggeredText="Create your first workflow" />

@@ -2,18 +2,20 @@ import { AppProviders } from "@/components/providers/AppProviders";
 import { Toaster } from "@/components/ui/sonner";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] });
 
 export const metadata: Metadata = {
-  title: "Flow srape",
-  description: "Build your own flow and scrape data with ease",
+  title: "CrawlMindAI — Visual Data Extraction with AI",
+  description:
+    "Build, automate, and scale intelligent web scraping workflows with a visual, no-code AI-powered platform.",
   openGraph: {
     images: `${process.env.APP_URL}/og-image.png`,
   },
 };
+
 
 export default function RootLayout({
   children,
@@ -31,10 +33,10 @@ export default function RootLayout({
       }}
     >
       <html lang="en" suppressHydrationWarning>
-        <body className={inter.className}>
+        <body className={outfit.className} suppressHydrationWarning>
           <AppProviders>{children}</AppProviders>
+          <Toaster richColors />
         </body>
-        <Toaster richColors />
       </html>
     </ClerkProvider>
   );

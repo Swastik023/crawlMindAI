@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -25,51 +11,51 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 239 15% 8%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 239 15% 8%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 142.1 76.2% 36.3%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --popover-foreground: 239 15% 8%;
+    --primary: 239 84% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 239 20% 94%;
+    --secondary-foreground: 239 25% 20%;
+    --muted: 239 15% 94%;
+    --muted-foreground: 239 12% 46%;
+    --accent: 239 20% 94%;
+    --accent-foreground: 239 25% 20%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 142.1 76.2% 36.3%;
-    --radius: 0.5rem;
-    --chart-1: 142 88% 28%;
-    --chart-2: 140 74% 44%;
+    --border: 239 20% 88%;
+    --input: 239 20% 88%;
+    --ring: 239 84% 60%;
+    --radius: 0.625rem;
+    --chart-1: 239 84% 60%;
+    --chart-2: 196 80% 54%;
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 0 0% 95%;
-    --card: 24 9.8% 10%;
-    --card-foreground: 0 0% 95%;
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 142.1 70.6% 45.3%;
-    --primary-foreground: 144.9 80.4% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 0 0% 98%;
+    --background: 239 25% 6%;
+    --foreground: 220 20% 95%;
+    --card: 239 22% 10%;
+    --card-foreground: 220 20% 95%;
+    --popover: 239 25% 8%;
+    --popover-foreground: 220 20% 95%;
+    --primary: 239 84% 65%;
+    --primary-foreground: 239 84% 6%;
+    --secondary: 239 20% 16%;
+    --secondary-foreground: 220 20% 95%;
+    --muted: 239 18% 15%;
+    --muted-foreground: 239 12% 62%;
+    --accent: 239 20% 16%;
+    --accent-foreground: 220 20% 95%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 85.7% 97.3%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 142.4 71.8% 29.2%;
-    --chart-1: 142 88% 28%;
-    --chart-2: 140 74% 44%;
+    --border: 239 18% 18%;
+    --input: 239 18% 18%;
+    --ring: 239 84% 60%;
+    --chart-1: 239 84% 65%;
+    --chart-2: 196 80% 54%;
   }
 }
 
@@ -82,12 +68,32 @@
   }
 }
 
+/* React Flow visual overrides */
 .react-flow__attribution {
   background: transparent !important;
 }
 
-.dark {
-  .react-flow__controls-button {
-    @apply !bg-accent;
+.dark .react-flow__controls-button {
+  @apply !bg-accent !border-border;
+}
+
+.react-flow__edge-path {
+  stroke-width: 2.5;
+}
+
+/* Micro-interaction utilities */
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .hover-glow:hover {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.25);
+  }
+  .card-hover {
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+  }
+  .card-hover:hover {
+    box-shadow: 0 8px 30px hsl(var(--primary) / 0.15);
+    transform: translateY(-1px);
   }
 }

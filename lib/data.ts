@@ -48,15 +48,15 @@ export const typeWriterWords = [
     text: "Build",
   },
   {
-    text: "Powerful",
-  },
-  {
-    text: "Web",
+    text: "AI-Powered",
     className: "text-primary dark:text-primary",
   },
   {
-    text: "Scraping",
+    text: "Data",
     className: "text-primary dark:text-primary",
+  },
+  {
+    text: "Extraction",
   },
   {
     text: "Workflows.",
@@ -65,25 +65,24 @@ export const typeWriterWords = [
 
 export const howItWorks = [
   {
-    title: "Build Your Workflow",
+    title: "Design Your Pipeline",
     description:
-      "Create powerful workflows with intuitive tools and actions, simplifying complex scraping tasks.",
+      "Create intelligent extraction pipelines visually using our node-based workflow builder. No coding required.",
   },
   {
-    title: "Scrape with Precision",
+    title: "Extract with Precision",
     description:
-      "Extract data efficiently from any web page using advanced tools, including AI-powered data extraction.",
+      "Pull structured data from any web page using AI-powered extraction and advanced browser automation.",
   },
-
   {
-    title: "Automate and Optimize",
+    title: "Automate & Schedule",
     description:
-      "Schedule workflows, monitor execution stats, and optimize processes for maximum efficiency.",
+      "Schedule workflows, monitor executions in real-time, and optimize for maximum efficiency.",
   },
   {
     title: "Deliver Anywhere",
     description:
-      "Send your scraped data directly to APIs, webhooks, or your preferred storage seamlessly.",
+      "Send your extracted data directly to APIs, webhooks, or your preferred storage destination.",
   },
 ];
 

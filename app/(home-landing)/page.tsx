@@ -31,7 +31,7 @@ export default function HomeLandingPage() {
             className="w-40 h-10 rounded-xl text-sm border-primary text-primary hover:text-white hover:bg-primary"
             variant={"outline"}
           >
-            <Link href={"/sign-in"}>Get Started</Link>
+            Get Started
             <ChevronRightIcon className="h-4 w-4" />
           </Button>
         </div>
@@ -82,6 +82,19 @@ export default function HomeLandingPage() {
         <p className="text-xs text-gray-500 dark:text-gray-400">
           No credit card required. Start with 200 free credits.
         </p>
+
+        {/* Safe link to new SaaS experience — ADD ONLY, does not change existing layout */}
+        <div className="mt-6 pt-6 border-t border-white/5 flex flex-col items-center gap-2">
+          <p className="text-xs text-gray-600 dark:text-gray-500">
+            Looking for the AI-powered experience?
+          </p>
+          <Link
+            href="/saas"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+          >
+            Explore CrawlMindAI →
+          </Link>
+        </div>
       </SectionWrapper>
     </div>
   );

@@ -13,8 +13,8 @@ function CredentialsPage() {
     <div className="flex flex-1 flex-col h-full">
       <div className="flex justify-between">
         <div className="flex flex-col">
-          <h1 className="text-3xl font-bold">Credentials</h1>
-          <p className="text-muted-foreground">Manage your credentials</p>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">Credentials</h1>
+          <p className="text-muted-foreground text-sm mt-0.5">Securely manage API keys and secrets</p>
         </div>
         <CreateCredentialDialog />
       </div>
@@ -47,8 +47,8 @@ async function UserCredentials() {
     return (
       <Card className="w-full p-4">
         <div className="flex flex-col gap-4 items-center justify-center">
-          <div className="rounded-full bg-accent w-20 h-20 flex items-center justify-center">
-            <ShieldOffIcon size={40} className="stroke-primary" />
+          <div className="rounded-2xl bg-primary/10 w-20 h-20 flex items-center justify-center ring-1 ring-primary/20">
+            <ShieldOffIcon size={36} className="stroke-primary" />
           </div>
           <div className="flex flex-col gap-1 text-center">
             <p className="font-bold">No credentials created yet</p>

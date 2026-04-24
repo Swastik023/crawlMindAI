@@ -11,20 +11,23 @@ import UserAvailableCreditsBadge from "./UserAvailableCreditsBadge";
 function DesktopSidebar() {
   const pathname = usePathname();
 
-  // const activeRoute =
-  //   routes.find(
-  //     (route) => route.href.length > 0 && pathname.includes(route.href)
-  //   ) || routes[0];
-
   return (
-    <div className="hidden relative md:block min-w-[280px] max-w-[280px] h-screen overflow-hidden w-full bg-primary/5 dark:bg-secondary/30 dark:text-foreground text-muted-foreground border-r-2 border-separate">
-      <div className="flex items-center justify-center gap-2 border-b-[1px] border-separate p-4">
+    <div className="hidden relative md:flex flex-col min-w-[280px] max-w-[280px] h-screen w-full bg-background dark:bg-secondary/10 border-r border-border">
+      {/* Logo + Tagline */}
+      <div className="flex flex-col items-center gap-1 border-b border-border px-4 py-5">
         <Logo />
+        <p className="text-[11px] text-muted-foreground tracking-wider font-medium mt-1">
+          Visual Data Extraction with AI
+        </p>
       </div>
-      <div className="p-2">
+
+      {/* Credits Badge */}
+      <div className="p-2 pt-3">
         <UserAvailableCreditsBadge />
       </div>
-      <div className="flex flex-col p-2">
+
+      {/* Navigation */}
+      <div className="flex flex-col p-2 flex-1">
         {routes.map((route) => (
           <Link
             key={route.href}
@@ -34,10 +37,20 @@ function DesktopSidebar() {
                 pathname === route.href ? "sidebarActiveitem" : "sidebarItem",
             })}
           >
-            <route.icon size={20} />
+            <route.icon size={18} />
             {route.label}
           </Link>
         ))}
+      </div>
+
+      {/* Author Signature Footer */}
+      <div className="border-t border-border px-4 py-3 text-center">
+        <p className="text-[11px] text-muted-foreground/60 tracking-wide">
+          Developed by{" "}
+          <span className="text-muted-foreground font-medium">
+            Swastik Agnihotri
+          </span>
+        </p>
       </div>
     </div>
   );

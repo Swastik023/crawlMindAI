@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { SquareDashedMousePointer } from "lucide-react";
+import { BrainCircuit } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -13,19 +13,19 @@ function Logo({
   return (
     <Link
       className={cn(
-        "text-2xl font-extrabold flex items-center gap-2",
+        "text-2xl font-extrabold flex items-center gap-2 select-none",
         fontSize
       )}
       href="/"
     >
-      <div className="rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 p-2">
-        <SquareDashedMousePointer size={iconSize} className="stroke-white" />
+      <div className="rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 p-2 shadow-lg shadow-blue-500/20">
+        <BrainCircuit size={iconSize} className="stroke-white" />
       </div>
-      <div>
-        <span className="bg-gradient-to-r from-emerald-500 to-emerald-600 bg-clip-text text-transparent">
-          Flow
+      <div className="flex items-baseline">
+        <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+          CrawlMind
         </span>
-        <span className="text-stone-700 dark:text-stone-300">Scrape</span>
+        <span className="text-foreground font-black">AI</span>
       </div>
     </Link>
   );

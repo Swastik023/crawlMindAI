@@ -13,11 +13,6 @@ function MobileSidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  // const activeRoute =
-  //   routes.find(
-  //     (route) => route.href.length > 0 && pathname.includes(route.href)
-  //   ) || routes[0];
-
   return (
     <div className="block border-separate bg-background md:hidden">
       <nav className="flex container items-center justify-between px-8">
@@ -28,12 +23,17 @@ function MobileSidebar() {
             </Button>
           </SheetTrigger>
           <SheetContent
-            className="w-[400px] sm:w-[540px] space-y-4"
+            className="w-[400px] sm:w-[540px] flex flex-col"
             side="left"
           >
-            <Logo />
+            <div className="flex flex-col items-start gap-1 pb-4 border-b border-border">
+              <Logo />
+              <p className="text-[11px] text-muted-foreground tracking-wider font-medium mt-1 pl-1">
+                Visual Data Extraction with AI
+              </p>
+            </div>
             <UserAvailableCreditsBadge />
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 flex-1">
               {routes.map((route) => (
                 <Link
                   key={route.href}
@@ -46,10 +46,18 @@ function MobileSidebar() {
                   })}
                   onClick={() => setIsOpen((prev) => !prev)}
                 >
-                  <route.icon size={20} />
+                  <route.icon size={18} />
                   {route.label}
                 </Link>
               ))}
+            </div>
+            <div className="border-t border-border pt-3 text-center">
+              <p className="text-[11px] text-muted-foreground/60 tracking-wide">
+                Developed by{" "}
+                <span className="text-muted-foreground font-medium">
+                  Swastik Agnihotri
+                </span>
+              </p>
             </div>
           </SheetContent>
         </Sheet>

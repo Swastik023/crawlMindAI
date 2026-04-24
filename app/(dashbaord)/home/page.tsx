@@ -28,8 +28,13 @@ function Homepage({
 
   return (
     <div className="flex flex-1 flex-col h-full">
-      <div className="flex justify-between">
-        <h1 className="text-3xl text-bold">Home</h1>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">
+            Dashboard
+          </h1>
+          <p className="text-sm text-muted-foreground mt-0.5">Overview of your workflow activity</p>
+        </div>
         <Suspense fallback={<Skeleton className="w-[180px] h-[40px]" />}>
           <PeriodSelectorWrapper selectedPeriod={period} />
         </Suspense>
