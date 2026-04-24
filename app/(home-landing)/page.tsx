@@ -10,6 +10,8 @@ import { FeaturesGradient } from "./_components/FeaturesGradient";
 import { HoverEffect } from "@/components/accernity-ui/CardHover";
 import Link from "next/link";
 import Navbar from "./_components/Navbar";
+import { PopularUseCases } from "@/components/marketing/PopularUseCases";
+import { UseCasesGrid } from "@/components/marketing/UseCasesGrid";
 
 export default function HomeLandingPage() {
   return (
@@ -53,6 +55,11 @@ export default function HomeLandingPage() {
       >
         <FeaturesSection />
       </SectionWrapper>
+      
+      {/* SaaS Marketing Content Integration */}
+      <PopularUseCases />
+      <UseCasesGrid />
+
       <SectionWrapper
         id="pricing"
         className="w-full py-12 md:py-24 lg:py-32"
