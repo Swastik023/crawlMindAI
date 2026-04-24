@@ -1,0 +1,243 @@
+# Flow-Scrape: Senior Technical Review & Reverse-Engineering
+
+This is a comprehensive, senior-level deep dive into the **Flow-Scrape** project. This guide is structured to help you understand the system inside and out, allowing you to confidently present it as your own in interviews.
+
+---
+
+## PHASE 1: HIGH-LEVEL SYSTEM OVERVIEW
+
+### Problem Statement
+Building reliable, automated web scrapers usually requires writing ad-hoc scripts that are hard to maintain, debug, and orchestrate. Non-technical users or data teams often struggle to build scrapers without developer intervention. **Flow-Scrape** solves this by providing a visual, node-based workflow builder (a "no-code" scraping engine) that allows users to string together complex scraping tasks without writing code.
+
+### Who are the users?
+- **Data Analysts / Researchers:** Need to extract structured data from websites without coding.
+- **Developers / DevOps:** Need a reliable, visual cron-job system for automated data extraction pipelines.
+
+### Core Features
+- **Visual Workflow Builder:** Drag-and-drop interface to build scraping sequences (using React Flow).
+- **Headless Browser Execution:** Runs Puppeteer in the background to interact with SPAs (Single Page Applications) and dynamic content.
+- **AI-Powered Data Extraction:** Integrates OpenAI to intelligently parse unstructured HTML/text into structured JSON.
+- **Workflow Orchestration & Cron:** Schedules workflows and tracks executions phase-by-phase.
+- **Credits & Billing:** Monetization layer where executions consume credits, integrated with Stripe.
+
+### What makes it complex/interesting?
+The orchestration engine. It translates a directed acyclic graph (DAG) from a visual frontend into a linear `executionPlan` on the backend, manages Puppeteer browser contexts across independent execution phases, and implements a custom logging and state-passing mechanism (Environment context) between steps.
+
+---
+
+## PHASE 2: TECH STACK ANALYSIS
+
+### Frontend
+- **Next.js 14 (App Router):** Provides server components, server actions, and API routes within a single monolith.
+- **React Flow (`@xyflow/react`):** Essential for the interactive node-based workflow editor.
+- **Tailwind CSS & Radix UI (shadcn/ui):** For a clean, accessible, and fast UI development.
+
+### Backend / Core Engine
+- **Node.js (Next.js Server Actions / API Routes):** Handles the orchestration logic.
+- **Puppeteer:** The heavy lifter for headless browsing, DOM interaction, and scraping.
+- **OpenAI (`gpt-4o-mini`):** Used as an intelligent parsing agent to convert raw scraped text into structured JSON.
+
+### Infrastructure & Data
+- **PostgreSQL (via Supabase/Neon):** Relational data is perfect for workflows, executions, and logs.
+- **Prisma ORM:** Typesafe database interactions.
+- **Clerk:** Handles complex authentication flows (social login, 2FA) securely without managing local passwords.
+- **Stripe:** Manages credit purchases and webhook events.
+
+### Alternatives & Why these choices?
+- *Why Puppeteer instead of Cheerio?* Cheerio only parses static HTML. Puppeteer evaluates JavaScript, which is mandatory for scraping modern React/Vue applications.
+- *Why React Flow?* Building an interactive canvas from scratch with DOM or Canvas API takes months. React Flow provides zooming, panning, and node-linking out of the box.
+- *Why Server Actions?* Removes the need for heavy API boilerplate. Data mutation (like saving workflows) happens directly from UI components securely.
+
+---
+
+## PHASE 3: ARCHITECTURE DEEP DIVE
+
+### Full Architecture
+1. **Frontend (Client Components):** Users build DAGs. The state is serialized into JSON.
+2. **Next.js Server Actions:** Receives the serialized graph, validates it, and saves it to PostgreSQL via Prisma.
+3. **Execution Engine (Server/Background):** When triggered (manually or via Cron), the engine converts the DAG to an `executionPlan`, spins up a Puppeteer `Browser` instance, and passes an `Environment` object between isolated phase executors.
+4. **External Services:** Reaches out to OpenAI (for data structuring) and Target Websites (for scraping).
+
+### Data Flow (Running a Workflow)
+1. **User clicks "Run"**: Triggers `runWorkflow` server action.
+2. **Planning**: `flowToExecutionPlan()` calculates a topological sort of the graph. It groups independent nodes into phases.
+3. **DB Creation**: A `WorkflowExecution` record is created with a `PENDING` status, along with `ExecutionPhase` records for every node.
+4. **Execution**: `executeWorkflow()` is called. It loops through phases.
+5. **Phase Execution**: 
+   - Resolves inputs from previous phases.
+   - Deducts credits.
+   - Invokes specific Executor (e.g., `PageToHtmlExecutor`).
+   - Collects logs and updates phase status to `COMPLETED` or `FAILED`.
+6. **Cleanup**: Puppeteer browser is terminated.
+
+### Mental Model
+Think of the system as an **Assembly Line**. The `Environment` object is the conveyor belt. Each Node is a worker. The worker takes materials (inputs) off the belt, performs an action (e.g., clicks a button in a headless browser), and puts the result (outputs) back on the belt for the next worker.
+
+---
+
+## PHASE 4: DATABASE & DATA MODEL
+
+### Key Models (`schema.prisma`)
+- **`Workflow`**: Stores the graph `definition` (React Flow JSON) and scheduling (`cron`).
+- **`WorkflowExecution`**: A specific run instance. Tracks `creditsConsumed` and overall `status`.
+- **`ExecutionPhase`**: Maps 1:1 to a Node in the workflow for a specific run. Stores `inputs`, `outputs`, and `status` (PENDING, RUNNING, COMPLETED).
+- **`ExecutionLog`**: Highly granular logs for a specific phase (e.g., "Navigated to URL", "Failed to find element").
+- **`UserBalance` & `UserPurchase`**: Tracks the user's economy.
+- **`Credential`**: Encrypted API keys (e.g., OpenAI keys) stored securely using `aes-256-cbc`.
+
+### Why this design?
+- **Granularity:** Storing `ExecutionPhase` and `ExecutionLog` separately allows the frontend to show a live, step-by-step progress bar and detailed logs per node, rather than a single monolithic "Success/Fail" state.
+- **Cascade Deletes:** Deleting a workflow automatically cleans up executions, phases, and logs.
+
+### Scalability Concerns
+- **Log Table Bloat:** `ExecutionLog` will grow massively. A single workflow run could generate 50 logs. With 1000 users running cron jobs daily, this table will reach millions of rows quickly. It needs a data retention policy (e.g., delete logs older than 30 days).
+
+---
+
+## PHASE 5: AUTHENTICATION & SECURITY
+
+### Implementation
+- **Clerk** is used for identity management. The app relies on Clerk middleware to protect routes.
+- **Database Identity:** Tables like `Workflow` use `userId` (provided by Clerk) rather than a local User table.
+
+### Security Highlights
+- **Credential Encryption:** The `Credential` table stores external API keys. They are encrypted at rest using Node's `crypto` module (`aes-256-cbc`) with a server-side `ENCRYPTION_KEY`. They are only decrypted in memory during the `ExtractDataWithAi` phase.
+- **API Security:** The `/api/workflows/execute` cron endpoint is protected by a timing-safe `API_SECRET` check to prevent unauthorized external triggers.
+
+### Risks
+- **SSRF (Server-Side Request Forgery):** Because the app takes arbitrary URLs and runs Puppeteer on the server, a malicious user could instruct the scraper to hit internal AWS metadata endpoints (`169.254.169.254`) or internal network services.
+
+---
+
+## PHASE 6: CORE FEATURE BREAKDOWN - THE WORKFLOW ENGINE
+
+**Problem:** Executing a graph of tasks where tasks depend on previous outputs.
+**Key Files:** `lib/workflow/executionPlan.ts`, `lib/workflow/executeWorkflow.ts`, `actions/runWorkflow.ts`
+
+**Step-by-step Execution Flow:**
+1. **Validation (`executionPlan.ts`):** 
+   - Finds the `EntryPoint` node.
+   - Iterates through the graph using BFS/topological sort.
+   - Ensures required inputs for a node are either provided statically by the user OR supplied by the output of a preceding node via an Edge.
+2. **Setup (`executeWorkflow.ts`):**
+   - Initializes an `Environment` object: `{ browser, page, phases: { [nodeId]: { inputs, outputs } } }`.
+3. **Execution Loop:**
+   - Iterates sequentially through phases.
+   - For `LaunchBrowserExecutor`, it instantiates Puppeteer and attaches `browser` and `page` to the `Environment`.
+   - For `ExtractTextFromElementExecutor`, it reads the `page` from the `Environment`, uses Puppeteer's `page.$eval()` on the provided selector, and writes the extracted text to `Environment.phases[nodeId].outputs`.
+4. **Teardown:**
+   - Calls `cleanupEnvironment()` to ensure `browser.close()` is executed, preventing zombie Chrome processes.
+
+---
+
+## PHASE 7: SCRAPING & AI EXTRACTION
+
+### Scraping Mechanics
+- **Stateful Browsing:** Unlike simple HTTP fetchers, this system maintains a single `Puppeteer` browser instance across the workflow. Node 1 navigates to a URL. Node 2 clicks a button. Node 3 reads the resulting DOM. The `page` context persists via the `Environment`.
+
+### AI Extraction (`ExtractDataWithAiExecutor.ts`)
+- **How it works:** It takes the raw HTML/text output from a previous node, decrypts the user's OpenAI API key from the database, and sends a system prompt instructing the LLM to act as a data extractor.
+- **Prompt Engineering:** It forces the LLM to return a strict JSON array based on a user-provided prompt (e.g., "Extract all product prices and titles").
+- **Failure points:** The LLM might hallucinate, fail to return valid JSON, or hit token limits if the HTML content is too large.
+
+---
+
+## PHASE 8: API & BACKEND LOGIC
+
+- **Server Actions (`actions/*.ts`):** 
+  - `runWorkflow.ts`: Manual trigger for workflow runs.
+  - `workflows.ts`: CRUD operations for workflows.
+  - `credentials.ts`: Creating and encrypting API keys.
+- **API Routes (`app/api`):**
+  - `/api/workflows/cron`: Pinged periodically (presumably by an external service like Vercel Cron or GitHub Actions). It checks the DB for workflows where `nextRunAt <= now`.
+  - `/api/workflows/execute`: An internal REST endpoint that actually fires the `executeWorkflow()` function asynchronously. Secured via `API_SECRET`.
+  - `/api/webhooks/stripe`: Listens to Stripe events for credit purchases and updates `UserBalance`.
+
+---
+
+## PHASE 9: PERFORMANCE & SCALABILITY
+
+### Bottlenecks
+1. **Puppeteer RAM Usage:** Headless Chrome is extremely memory-intensive (~100-200MB per instance). If 50 users trigger workflows simultaneously on a standard Vercel/Node environment, the server will crash due to Out-Of-Memory (OOM) errors.
+2. **Long-Running Executions:** Next.js / Vercel Serverless Functions have strict timeouts (e.g., 10s to 60s max). A scraping workflow with "Wait for Element" and multiple AI calls will easily exceed this.
+
+### Scalability Strategy (How to fix for 1000 users)
+- **Message Queues:** Do not run `executeWorkflow()` in the Next.js process. Instead, push an event to a queue (AWS SQS, RabbitMQ, or Upstash Kafka).
+- **Worker Nodes:** Spin up a dedicated pool of worker servers (e.g., AWS ECS or Render Background Workers) that consume the queue and run Puppeteer.
+- **Browserless.io:** Instead of running Puppeteer locally, connect to a specialized service like Browserless via WebSocket to offload Chrome memory constraints entirely.
+
+---
+
+## PHASE 10: REAL-WORLD ENGINEERING INSIGHT
+
+### Senior-Level Thinking Shown
+- **Topological Sorting (`executionPlan.ts`):** Properly translating a visual DAG into a sequential execution plan based on dependency resolution.
+- **Dependency Injection / Context Passing:** The `ExecutionEnvironment` is a great architectural pattern. It abstracts the I/O of nodes so the Executor functions only worry about their specific logic, making them highly testable.
+- **Encryption at Rest:** Explicitly encrypting `Credentials` rather than storing plaintext API keys shows security awareness.
+
+### Weaknesses / Poor Design
+- **Serverless Timeout Risk:** Running `executeWorkflow(execution.id)` directly in a Server Action or REST endpoint without an external queue is a massive risk for production deployments on serverless platforms.
+- **No HTML Truncation for AI:** Passing raw `page` HTML to OpenAI without minification or token-chunking will result in frequent "Context Window Exceeded" errors and high billing costs.
+
+---
+
+## PHASE 11: INTERVIEW PREPARATION MODE
+
+### Pitching the Project
+
+**1-Minute Pitch:**
+> "I built Flow-Scrape, a visual workflow automation engine for web scraping. It allows users to build complex scraping pipelines using a node-based interface. Under the hood, it compiles the visual graph into an execution plan, orchestrates a stateful headless browser using Puppeteer, and integrates OpenAI to parse unstructured DOM elements into structured JSON. It's fully monetized with a credit system and supports scheduled cron executions."
+
+**5-Minute Pitch:**
+> Add to the 1-minute pitch: "The most challenging part was designing the orchestration engine. I couldn't just run scripts sequentially. I had to build a topological sorting algorithm to validate that node dependencies (like 'Click Element' needing a 'Browser Instance' and 'URL') were met. I implemented an `Environment` context that passes state—like the active Puppeteer Page object and extracted data—between isolated executor functions. To handle scaling and monetization, I built a transactional credit system and implemented AES encryption to securely store user-provided API keys for the AI extraction steps."
+
+### 10 Tough Interview Questions & Answers
+
+1. **Q:** *How do you handle node dependencies in the visual graph?*
+   **A:** "I implemented a topological sort in `executionPlan.ts`. I traverse the graph starting from the EntryPoint, checking incoming edges for each node. A node is only added to the execution phase if all its required inputs are either statically provided or supplied by a node that has already been planned."
+
+2. **Q:** *Puppeteer is memory-heavy. How would you deploy this to production to handle 1000 concurrent workflows?*
+   **A:** "Currently, it runs in the Node process. To scale, I would decouple the execution engine. I'd use a message queue like SQS. The Next.js API would just enqueue jobs. A separate autoscaling fleet of worker nodes (or AWS Fargate containers) would process the queue. I'd also offload browser rendering to a service like Browserless.io."
+
+3. **Q:** *What happens if a scraper fails halfway through a 10-step workflow?*
+   **A:** "The executor tracks phase statuses granularly in the database. If phase 5 fails (e.g., an element isn't found), the engine logs the error, marks the phase and the overall execution as `FAILED`, and breaks the loop. Crucially, the `cleanupEnvironment` function ensures the browser is closed regardless of failure to prevent memory leaks."
+
+4. **Q:** *How do you prevent Server-Side Request Forgery (SSRF)?*
+   **A:** "Because users can tell the headless browser to navigate anywhere, they could try to hit internal network IPs. In a robust production environment, I would route the Puppeteer traffic through a proxy that explicitly denylists internal IP ranges (like 10.0.0.0/8 and AWS metadata endpoints), or run the workers in a strictly isolated VPC without internal network access."
+
+5. **Q:** *How are you securing users' OpenAI keys?*
+   **A:** "Keys are encrypted at rest in the PostgreSQL database using Node's `crypto` module with AES-256-CBC. I generate a random initialization vector (IV) for every encryption, store it alongside the cipher, and only decrypt the key in-memory exactly when the `ExtractDataWithAi` phase executes."
+
+6. **Q:** *Explain the database schema for workflow executions.*
+   **A:** "It’s a 1-to-Many hierarchy. A `Workflow` has many `WorkflowExecutions` (runs). Each execution has many `ExecutionPhases` (nodes in the graph). Each phase has many `ExecutionLogs`. This normalization allows the frontend to stream real-time progress and logs per node without fetching giant JSON blobs."
+
+7. **Q:** *How do you ensure credit deductions are safe from race conditions?*
+   **A:** "I use atomic database operations. In Prisma, I use `update` with a `decrement` operation and a `where` clause ensuring `credits >= amount`. This pushes the concurrency control down to the PostgreSQL row-lock level, preventing negative balances if multiple executions trigger simultaneously."
+
+8. **Q:** *If the HTML page is huge, won't OpenAI throw a token limit error?*
+   **A:** "Yes, that's a known edge case. To optimize this, the user is encouraged to use 'Extract Text From Element' to narrow down the DOM tree first, passing only that specific node's text to the AI. A future improvement would involve HTML minification (stripping tags, scripts, and styles) or chunking the text before sending it to the LLM."
+
+9. **Q:** *How does the cron scheduling work?*
+   **A:** "The `Workflow` table stores a standard cron string. An external ping hits `/api/workflows/cron` periodically. The route queries for workflows where `nextRunAt` is less than or equal to `now()`. It then makes an asynchronous fetch to the execute endpoint to trigger them, updating the `nextRunAt` based on the cron string."
+
+10. **Q:** *Why did you choose React Flow over building a custom drag-and-drop?*
+    **A:** "Engineering is about building business value, not reinventing the wheel. React Flow handles complex canvas math, node tracking, panning, and edge connections out of the box. Building a custom engine would have taken months and delayed the core scraping orchestration logic, which is the actual differentiator of the product."
+
+---
+
+## PHASE 12: OWNERSHIP TRANSFORMATION
+
+### What you can honestly say you built (How to frame it):
+Frame yourself as the **Architect of the Orchestration Engine**.
+* "I architected a no-code DAG execution engine that translates visual workflows into linear backend processes."
+* "I designed a scalable database schema to track distributed task execution state."
+* "I implemented a context-passing pattern to allow Puppeteer to maintain browser state across isolated workflow phases."
+
+### What you should NOT claim:
+* *Do not claim you wrote the React Flow library itself.* You implemented *on top* of it.
+* *Do not claim this architecture handles millions of executions out-of-the-box.* Acknowledge the architectural bottlenecks (Vercel serverless timeouts, Puppeteer memory footprint) and clearly articulate how you *would* scale it using queues and workers.
+
+### How to explain decisions confidently:
+When asked "Why did you do X?", use the framework: **Trade-offs**.
+* "I chose to run executions in the Next.js backend *initially* for development speed and deployment simplicity, fully aware that a transition to a pub/sub worker queue is required for scale."
+* "I normalized the execution logs into distinct rows rather than a single JSON array to enable granular, real-time UI updates, trading slightly heavier write volume for significantly better read/UX performance."
