@@ -1,3 +1,4 @@
+"use client";
 import { howItWorks } from "@/lib/data";
 import React from "react";
 import { useId } from "react";
@@ -9,13 +10,13 @@ export function FeaturesGradient() {
         {howItWorks.map((feature) => (
           <div
             key={feature.title}
-            className="relative bg-gradient-to-b dark:from-neutral-900 from-neutral-100 dark:to-neutral-950 to-white p-6 rounded-3xl overflow-hidden"
+            className="relative bg-[#191c1b]/80 backdrop-blur-sm border border-white/5 hover:bg-[#1d201e]/80 transition-all p-6 rounded-3xl overflow-hidden"
           >
             <Grid size={20} />
-            <p className="text-base font-bold text-neutral-800 dark:text-white relative z-20">
+            <p className="text-base font-bold text-[#e1e3e0] relative z-20">
               {feature.title}
             </p>
-            <p className="text-neutral-600 dark:text-neutral-400 mt-4 text-base font-normal relative z-20">
+            <p className="text-[#89938d] mt-4 text-base font-normal relative z-20">
               {feature.description}
             </p>
           </div>
@@ -41,14 +42,14 @@ export const Grid = ({
   ];
   return (
     <div className="pointer-events-none absolute left-1/2 top-0  -ml-20 -mt-2 h-full w-full [mask-image:linear-gradient(white,transparent)]">
-      <div className="absolute inset-0 bg-gradient-to-r  [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-primary/30 from-primary/30 to-prifrom-primary/30 dark:to-prifrom-primary/30 opacity-100">
+      <div className="absolute inset-0 bg-gradient-to-r  [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] from-[#4de082]/10 to-[#4de082]/10 opacity-100">
         <GridPattern
           width={size ?? 20}
           height={size ?? 20}
           x="-12"
           y="4"
           squares={p}
-          className="absolute inset-0 h-full w-full  mix-blend-overlay dark:fill-primary/10 dark:stroke-primary/10 stroke-primary/10 fill-primary"
+          className="absolute inset-0 h-full w-full mix-blend-overlay fill-[#4de082]/10 stroke-[#4de082]/10"
         />
       </div>
     </div>

@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
@@ -38,7 +39,7 @@ export const HoverEffect = ({
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
+                className="absolute inset-0 h-full w-full bg-[#4de082]/10 block rounded-3xl"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
@@ -54,17 +55,17 @@ export const HoverEffect = ({
           </AnimatePresence>
           <Card className="group">
             <CardTitle className="flex flex-col gap-2">
-              <span className="text-xl group-hover:text-primary">
+              <span className="text-xl group-hover:text-[#4de082]">
                 {item.title}
               </span>
-              <span className="font-thin">{item.credits} credits</span>
+              <span className="font-normal text-[#89938d]">{item.credits} credits</span>
             </CardTitle>
             <CardDescription className="flex flex-col gap-2">
-              <span className="text-3xl font-semibold group-hover:text-primary text-white">
+              <span className="text-3xl font-semibold group-hover:text-[#4de082] text-[#e1e3e0]">
                 ${item.price}
               </span>
-              <span className="">{item.description}</span>
-              <div className="text-white bg-primary px-10 py-2 rounded-md text-center">
+              <span className="text-[#89938d]">{item.description}</span>
+              <div className="text-[#111412] bg-[#4de082] hover:bg-[#4de082]/90 transition-colors font-medium px-10 py-2 rounded-md text-center">
                 Buy Now
               </div>
             </CardDescription>
@@ -85,7 +86,7 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
+        "rounded-2xl h-full w-full p-4 overflow-hidden bg-[#191c1b]/80 backdrop-blur-sm border border-white/10 group-hover:border-[#4de082]/30 group-hover:bg-[#1d201e]/80 transition-all duration-300 relative z-20",
         className
       )}
     >
@@ -103,7 +104,7 @@ export const CardTitle = ({
   children: React.ReactNode;
 }) => {
   return (
-    <h4 className={cn("text-zinc-100 font-bold tracking-wide mt-4", className)}>
+    <h4 className={cn("text-[#e1e3e0] font-bold tracking-wide mt-4", className)}>
       {children}
     </h4>
   );
@@ -118,7 +119,7 @@ export const CardDescription = ({
   return (
     <p
       className={cn(
-        "mt-8 text-zinc-400 tracking-wide leading-relaxed text-sm",
+        "mt-8 text-[#89938d] tracking-wide leading-relaxed text-sm",
         className
       )}
     >

@@ -34,8 +34,10 @@ export default function RootLayout({
     >
       <html lang="en" suppressHydrationWarning>
         <body className={outfit.className} suppressHydrationWarning>
-          <AppProviders>{children}</AppProviders>
-          <Toaster richColors />
+          <AppProviders>
+            {children}
+            <Toaster richColors />
+          </AppProviders>
         </body>
       </html>
     </ClerkProvider>

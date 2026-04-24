@@ -1,138 +1,96 @@
-"use client";
-import { TypewriterEffectSmooth } from "@/components/accernity-ui/TypeWriterEffect";
-import { Button } from "@/components/ui/button";
-import { pricingPlans, typeWriterWords } from "@/lib/data";
-import { cn } from "@/lib/utils";
-import { ChevronRightIcon } from "lucide-react";
-import { FeaturesSection } from "./_components/Feature";
-import { FeaturesGradient } from "./_components/FeaturesGradient";
-
-import { HoverEffect } from "@/components/accernity-ui/CardHover";
-import Link from "next/link";
-import Navbar from "./_components/Navbar";
+import { MarketingNav } from "@/components/marketing/MarketingNav";
+import { HeroSection } from "@/components/marketing/HeroSection";
+import { FeaturesSection as SaaSFeaturesSection } from "@/components/marketing/FeaturesSection";
 import { PopularUseCases } from "@/components/marketing/PopularUseCases";
 import { UseCasesGrid } from "@/components/marketing/UseCasesGrid";
+import { CommunitySection } from "@/components/marketing/CommunitySection";
+import { Testimonials } from "@/components/marketing/Testimonials";
+import { CTASection } from "@/components/marketing/CTASection";
+import { Footer } from "@/components/marketing/Footer";
+import type { Metadata } from "next";
+
+import { FeaturesGradient as LegacyHowItWorks } from "./_components/FeaturesGradient";
+import { FeaturesSection as LegacyScrapingFeatures } from "./_components/Feature";
+import { HoverEffect as LegacyPricingGrid } from "@/components/accernity-ui/CardHover";
+import { pricingPlans } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: "CrawlMindAI — Visual Data Extraction with AI",
+  description:
+    "Scale your data intelligence with autonomous agents that browse, extract, and clean web data in real-time. No code, just flow.",
+};
 
 export default function HomeLandingPage() {
   return (
-    <div className="flex flex-col min-h-screen gap-4 selection:bg-primary selection:text-white dark bg-[#0C0A09] ">
-      <Navbar />
-      <SectionWrapper className="h-[35rem] text-center">
-        <TypewriterEffectSmooth
-          words={typeWriterWords}
-          className="mb-0 space-y-0"
-          cursorClassName="bg-primary"
-        />
-        <p className="text-muted-foreground text-sm md:text-xl">
-          Create, automate, and scale your web scraping projects with ease. No
-          coding required.
-        </p>
-
-        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-          <Button
-            className="w-40 h-10 rounded-xl text-sm border-primary text-primary hover:text-white hover:bg-primary"
-            variant={"outline"}
-          >
-            Get Started
-            <ChevronRightIcon className="h-4 w-4" />
-          </Button>
-        </div>
-        <p className="text-sm text-primary">
-          New users get 200 credits for free upon first login
-        </p>
-      </SectionWrapper>
-      <SectionWrapper
-        id="howItWorks"
-        primaryTitle="How"
-        secondaryTitle="It Works"
-      >
-        <FeaturesGradient />
-      </SectionWrapper>
-      <SectionWrapper
-        id="scrapingFeatures"
-        primaryTitle="Scraping"
-        secondaryTitle="Features"
-      >
-        <FeaturesSection />
-      </SectionWrapper>
+    <div
+      className="min-h-screen text-[#e1e3e0]"
+      style={{
+        background:
+          "radial-gradient(ellipse 80% 60% at 50% -10%, #064e3b22 0%, transparent 60%), #111412",
+        backgroundAttachment: "fixed",
+      }}
+    >
+      <MarketingNav />
+      <HeroSection />
       
-      {/* SaaS Marketing Content Integration */}
+      {/* SaaS Sections */}
+      <SaaSFeaturesSection />
       <PopularUseCases />
       <UseCasesGrid />
+      <CommunitySection />
 
-      <SectionWrapper
-        id="pricing"
-        className="w-full py-12 md:py-24 lg:py-32"
-        primaryTitle="Simple"
-        secondaryTitle="Pricing"
-      >
-        <div className="flex gap-5 w-full mt-10">
-          <HoverEffect items={[...pricingPlans]} />
+      {/* Legacy: How It Works */}
+      <section id="howItWorks" className="relative py-24 px-6 scroll-mt-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-center mb-5">
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[#4de082] bg-[#064e3b]/40 border border-[#4de082]/20 px-4 py-1.5 rounded-full">
+              How It Works
+            </span>
+          </div>
+          <h2 className="text-center text-4xl font-bold tracking-tight text-[#e1e3e0] mb-16">
+            Create intelligent pipelines <span className="text-[#4de082]">visually</span>
+          </h2>
+          <LegacyHowItWorks />
         </div>
-      </SectionWrapper>
+      </section>
 
-      <SectionWrapper className="text-center">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-[#22C55E] to-green-600">
-          Start Scraping Today
-        </h2>
-        <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-          Join thousands of users who are already leveraging our powerful web
-          scraping platform.
-        </p>
-        <Link
-          className="w-max bg-[#22C55E] text-white hover:bg-[#22C55E]/90 transition-colors flex px-4 py-2 rounded-sm items-center"
-          href={"/sign-in"}
-        >
-          Sign Up Now
-          <ChevronRightIcon className="ml-2 h-4 w-4" />
-        </Link>
-        <p className="text-xs text-gray-500 dark:text-gray-400">
-          No credit card required. Start with 200 free credits.
-        </p>
+      {/* Legacy: Scraping Features Grid */}
+      <section id="scrapingFeatures" className="relative py-24 px-6 scroll-mt-20 bg-[#111412]">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-center mb-5">
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[#06b6d4] bg-[#06b6d4]/10 border border-[#06b6d4]/20 px-4 py-1.5 rounded-full">
+              Scraping Features
+            </span>
+          </div>
+          <h2 className="text-center text-4xl font-bold tracking-tight text-[#e1e3e0] mb-16">
+            Everything you need to <span className="text-[#06b6d4]">extract data</span>
+          </h2>
+          <LegacyScrapingFeatures />
+        </div>
+      </section>
 
-        {/* Safe link to new SaaS experience — ADD ONLY, does not change existing layout */}
-        <div className="mt-6 pt-6 border-t border-white/5 flex flex-col items-center gap-2">
-          <p className="text-xs text-gray-600 dark:text-gray-500">
-            Looking for the AI-powered experience?
+      {/* Legacy: Pricing */}
+      <section id="pricing" className="relative py-24 px-6 scroll-mt-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-center mb-5">
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[#95d3ba] bg-[#95d3ba]/10 border border-[#95d3ba]/20 px-4 py-1.5 rounded-full">
+              Pricing
+            </span>
+          </div>
+          <h2 className="text-center text-4xl font-bold tracking-tight text-[#e1e3e0] mb-4">
+            Simple & Transparent <span className="text-[#95d3ba]">Pricing</span>
+          </h2>
+          <p className="text-center text-[#89938d] max-w-2xl mx-auto mb-16 text-base">
+            Start scraping today with our flexible credit-based system.
           </p>
-          <Link
-            href="/saas"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-          >
-            Explore CrawlMindAI →
-          </Link>
+          <LegacyPricingGrid items={[...pricingPlans]} />
         </div>
-      </SectionWrapper>
-    </div>
-  );
-}
+      </section>
 
-function SectionWrapper({
-  children,
-  className,
-  id,
-  primaryTitle,
-  secondaryTitle,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  id?: string;
-  primaryTitle?: string;
-  secondaryTitle?: string;
-}) {
-  return (
-    <section
-      className={cn(
-        "flex flex-col items-center justify-center gap-4 py-10 box-border max-w-screen-xl mx-auto scroll-mt-[80px] p-5 md:p-10",
-        className
-      )}
-      id={id}
-    >
-      <div className="text-2xl md:text-4xl lg:text-6xl text-foreground">
-        <span className="text-primary">{primaryTitle}</span>{" "}
-        <span className="">{secondaryTitle}</span>
-      </div>
-      {children}
-    </section>
+      {/* SaaS Testimonials & Footer */}
+      <Testimonials />
+      <CTASection />
+      <Footer />
+    </div>
   );
 }
