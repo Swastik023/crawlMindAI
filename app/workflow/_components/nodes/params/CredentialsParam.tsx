@@ -23,6 +23,17 @@ function CredentialsParam({ param, updateNodeParamValue, value }: ParamProps) {
     refetchInterval: 10000,
   });
 
+  const dummyCredentials = [
+    {
+      id: "mock-1",
+      provider: "OpenAI",
+      name: "Dummy API Key",
+      token: "sk-dummy-12345",
+    },
+  ];
+
+  const credentials = query.data && query.data.length > 0 ? query.data : dummyCredentials;
+
   return (
     <div className="flex flex-col gap-1 w-full">
       <Label htmlFor={id} className="text-xs flex">
@@ -39,7 +50,7 @@ function CredentialsParam({ param, updateNodeParamValue, value }: ParamProps) {
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Credentials</SelectLabel>
-            {query.data?.map((credential) => (
+            {credentials.map((credential) => (
               <SelectItem key={credential.id} value={credential.id}>
                 {credential.name}
               </SelectItem>

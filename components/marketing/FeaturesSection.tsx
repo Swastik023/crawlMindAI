@@ -13,12 +13,14 @@ const features = [
     title: "Visual Workflow Editor",
     description: "Build workflows visually using a drag-and-drop interface. No Code Required.",
     color: "#4de082",
+    previewImage: "/Home-OurFeatures-1-Graph.webp",
   },
   {
     icon: BrainCircuit,
     title: "AI-Powered Extraction",
     description: "Smart parsing of complex pages using LLMs.",
     color: "#06b6d4",
+    previewImage: "/Home-OurFeatures-2-JobListing.webp",
   },
   {
     icon: Activity,
@@ -26,12 +28,14 @@ const features = [
     description: "Automate and track workflows. Get alerted when site structures change.",
     color: "#95d3ba",
     highlights: ["24/7 Monitoring & Alerts", "99.9% Success Rate"],
+    previewImage: "/Home-OurFeatures-3-Competitor.webp",
   },
   {
     icon: Globe,
     title: "Advanced Selectors",
     description: "Precise element targeting for the most complex sites.",
     color: "#4de082",
+    previewImage: "/Home-OurFeatures-4-Results.webp",
   },
   {
     icon: CheckCircle2,
@@ -74,10 +78,8 @@ export function FeaturesSection() {
           return (
             <div
               key={feature.title}
-              className="group relative rounded-2xl border border-white/10 bg-[#1d201e]/60 backdrop-blur-xl p-8 transition-all duration-300 hover:border-white/20 hover:bg-[#272b29]/60"
-              style={{
-                boxShadow: "none",
-              }}
+              className="group relative rounded-2xl border border-white/10 bg-[#1d201e]/60 backdrop-blur-xl overflow-hidden transition-all duration-300 hover:border-white/20 hover:bg-[#272b29]/60"
+              style={{ boxShadow: "none" }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.boxShadow = `0 0 40px ${feature.color}15`;
               }}
@@ -87,39 +89,56 @@ export function FeaturesSection() {
             >
               {/* Top glow line */}
               <div
-                className="absolute top-0 left-8 right-8 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                className="absolute top-0 left-8 right-8 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
                 style={{
                   background: `linear-gradient(90deg, transparent, ${feature.color}60, transparent)`,
                 }}
               />
 
-              <div
-                className="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-xl"
-                style={{
-                  background: `${feature.color}15`,
-                  border: `1px solid ${feature.color}30`,
-                }}
-              >
-                <Icon size={22} style={{ color: feature.color }} />
-              </div>
-
-              <h3 className="text-lg font-semibold text-[#e1e3e0] mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-[#89938d] text-sm leading-relaxed">
-                {feature.description}
-              </p>
-
-              {feature.highlights && (
-                <div className="mt-5 flex flex-col gap-2">
-                  {feature.highlights.map((h) => (
-                    <div key={h} className="flex items-center gap-2">
-                      <CheckCircle2 size={14} className="text-[#4de082]" />
-                      <span className="text-xs text-[#bfc9c3]">{h}</span>
-                    </div>
-                  ))}
+              {/* Preview image (if available) */}
+              {feature.previewImage && (
+                <div className="relative h-36 overflow-hidden">
+                  <img
+                    src={feature.previewImage}
+                    alt={feature.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div
+                    className="absolute inset-0 opacity-50"
+                    style={{ background: `linear-gradient(180deg, transparent 30%, #1d201e)` }}
+                  />
                 </div>
               )}
+
+              <div className="p-8">
+                <div
+                  className="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-xl"
+                  style={{
+                    background: `${feature.color}15`,
+                    border: `1px solid ${feature.color}30`,
+                  }}
+                >
+                  <Icon size={22} style={{ color: feature.color }} />
+                </div>
+
+                <h3 className="text-lg font-semibold text-[#e1e3e0] mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-[#89938d] text-sm leading-relaxed">
+                  {feature.description}
+                </p>
+
+                {feature.highlights && (
+                  <div className="mt-5 flex flex-col gap-2">
+                    {feature.highlights.map((h) => (
+                      <div key={h} className="flex items-center gap-2">
+                        <CheckCircle2 size={14} className="text-[#4de082]" />
+                        <span className="text-xs text-[#bfc9c3]">{h}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           );
         })}

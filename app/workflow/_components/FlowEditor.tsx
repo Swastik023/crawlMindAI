@@ -116,7 +116,7 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
       );
 
       if (input?.type !== output?.type) {
-        console.log("Invalid connection");
+        console.log("Invalid connection: type mismatch", output?.type, "→", input?.type);
         return false;
       }
 

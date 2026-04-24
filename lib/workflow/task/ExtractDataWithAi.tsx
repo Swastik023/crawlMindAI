@@ -11,6 +11,11 @@ export const ExtractDataWithAiTask = {
   credits: 3,
   inputs: [
     {
+      name: "Web page",
+      type: TaskParamType.BROWSE_INSTANCE,
+      required: true,
+    },
+    {
       name: "Content",
       type: TaskParamType.STRING,
       required: true,
@@ -31,6 +36,10 @@ export const ExtractDataWithAiTask = {
     {
       name: "Extracted Data",
       type: TaskParamType.STRING,
+    },
+    {
+      name: "Web page",
+      type: TaskParamType.BROWSE_INSTANCE,
     },
   ] as const,
 } satisfies WorkflowTask;

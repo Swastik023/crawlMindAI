@@ -93,6 +93,30 @@ export function HeroSection() {
           </div>
         ))}
       </div>
+
+      {/* Workflow preview screenshot */}
+      <div className="relative z-10 mt-16 w-full max-w-5xl">
+        <div className="relative rounded-2xl border border-white/10 overflow-hidden"
+          style={{ boxShadow: "0 0 80px rgba(77,224,130,0.08), 0 40px 80px rgba(0,0,0,0.6)" }}
+        >
+          {/* Fake browser chrome bar */}
+          <div className="flex items-center gap-2 px-4 py-3 bg-[#1d201e] border-b border-white/5">
+            <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+            <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
+            <span className="w-3 h-3 rounded-full bg-[#28c840]" />
+            <div className="ml-3 flex-1 h-6 rounded-md bg-[#111412] border border-white/5 flex items-center px-3">
+              <span className="text-[10px] text-[#89938d] font-mono">crawlmindai.com/workflow/editor</span>
+            </div>
+          </div>
+          <img
+            src="/Automated-Scraping-Workflow-Example.jpeg"
+            alt="CrawlMindAI visual workflow editor showing an automated scraping pipeline"
+            className="w-full h-auto block"
+          />
+          {/* Bottom gradient fade */}
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#111412] to-transparent pointer-events-none" />
+        </div>
+      </div>
     </section>
   );
 }

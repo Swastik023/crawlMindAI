@@ -1,10 +1,9 @@
 "use client";
-import { LineChart, FileText, PieChart, Users } from "lucide-react";
 
 const popularUseCases = [
   {
     title: "Price Monitoring",
-    icon: LineChart,
+    image: "/useCase-PriceMonitoring.webp",
     metrics: [
       { label: "Accuracy", value: "94%" },
       { label: "Time Saved", value: "85%" },
@@ -14,7 +13,7 @@ const popularUseCases = [
   },
   {
     title: "Content Aggregation",
-    icon: FileText,
+    image: "/useCase-ContentAggregation.webp",
     metrics: [
       { label: "Faster Updates", value: "78%" },
       { label: "Coverage", value: "92%" },
@@ -24,7 +23,7 @@ const popularUseCases = [
   },
   {
     title: "Market Research",
-    icon: PieChart,
+    image: "/useCase-MarketResearch.webp",
     metrics: [
       { label: "Data Accuracy", value: "87%" },
       { label: "Time Efficiency", value: "73%" },
@@ -34,7 +33,7 @@ const popularUseCases = [
   },
   {
     title: "Lead Generation",
-    icon: Users,
+    image: "/useCase-LeadGeneration.webp",
     metrics: [
       { label: "High-Quality Leads", value: "82%" },
       { label: "Volume Increase", value: "3.5×" },
@@ -54,34 +53,44 @@ export function PopularUseCases() {
       </div>
 
       <h2 className="text-center text-4xl font-bold tracking-tight text-[#e1e3e0] mb-4">
-        ScrapeFlow enables businesses to <span className="text-[#4de082]">automate data collection</span>
+        CrawlMindAI enables businesses to <span className="text-[#4de082]">automate data collection</span>
       </h2>
       <p className="text-center text-[#89938d] max-w-xl mx-auto mb-16 text-base">
         across multiple domains, improving efficiency and decision-making.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-        {popularUseCases.map((uc) => {
-          const Icon = uc.icon;
-          return (
-            <div
-              key={uc.title}
-              className="group relative rounded-2xl border border-white/10 bg-[#1d201e]/60 backdrop-blur-xl p-8 transition-all duration-300 hover:border-white/20 hover:bg-[#272b29]/60"
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <div
-                  className="inline-flex items-center justify-center w-12 h-12 rounded-xl"
-                  style={{
-                    background: `${uc.color}15`,
-                    border: `1px solid ${uc.color}30`,
-                  }}
+        {popularUseCases.map((uc) => (
+          <div
+            key={uc.title}
+            className="group relative rounded-2xl border border-white/10 bg-[#1d201e]/60 backdrop-blur-xl overflow-hidden transition-all duration-300 hover:border-white/20 hover:bg-[#272b29]/60"
+          >
+            {/* Image header */}
+            <div className="relative h-40 overflow-hidden">
+              <img
+                src={uc.image}
+                alt={uc.title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div
+                className="absolute inset-0 opacity-40"
+                style={{ background: `linear-gradient(135deg, ${uc.color}30, transparent)` }}
+              />
+              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#1d201e] to-transparent" />
+              {/* Title badge over image */}
+              <div className="absolute bottom-3 left-4">
+                <h3
+                  className="text-lg font-semibold"
+                  style={{ color: uc.color }}
                 >
-                  <Icon size={22} style={{ color: uc.color }} />
-                </div>
-                <h3 className="text-xl font-semibold text-[#e1e3e0]">{uc.title}</h3>
+                  {uc.title}
+                </h3>
               </div>
+            </div>
 
-              <div className="grid grid-cols-3 gap-4 border-t border-white/5 pt-6 mt-4">
+            {/* Metrics */}
+            <div className="px-6 pb-6">
+              <div className="grid grid-cols-3 gap-4 border-t border-white/5 pt-5">
                 {uc.metrics.map((m) => (
                   <div key={m.label} className="text-center">
                     <div
@@ -95,8 +104,8 @@ export function PopularUseCases() {
                 ))}
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </section>
   );

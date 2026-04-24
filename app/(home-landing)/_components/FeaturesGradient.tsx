@@ -6,6 +6,16 @@ import { useId } from "react";
 export function FeaturesGradient() {
   return (
     <div className="py-10 lg:py-10">
+      {/* How it works visual */}
+      <div className="relative mb-12 rounded-2xl border border-white/8 overflow-hidden max-w-4xl mx-auto">
+        <img
+          src="/HowScrapeFowWorks.webp"
+          alt="Diagram showing how CrawlMindAI scraping workflow operates"
+          className="w-full h-auto block"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#111412]/60 via-transparent to-transparent pointer-events-none" />
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 md:gap-2 max-w-7xl mx-auto">
         {howItWorks.map((feature) => (
           <div
