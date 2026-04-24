@@ -55,7 +55,7 @@ export function Testimonials() {
                 className="text-3xl font-serif leading-none"
                 style={{ color: t.accent }}
               >
-                "
+                &ldquo;
               </div>
               <p className="text-sm text-[#bfc9c3] leading-relaxed flex-1 -mt-2">
                 {t.quote}
