@@ -9,7 +9,7 @@ export function FeaturesGradient() {
       {/* How it works visual */}
       <div className="relative mb-12 rounded-2xl border border-white/8 overflow-hidden max-w-4xl mx-auto">
         <img
-          src="/HowScrapeFowWorks.webp"
+          src="/HowCrawlMindWorks.webp"
           alt="Diagram showing how CrawlMindAI scraping workflow operates"
           className="w-full h-auto block"
         />

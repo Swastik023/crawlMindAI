@@ -11,7 +11,7 @@ export function createFlowNode(
       inputs: {},
     },
     position: position ?? { x: 0, y: 0 },
-    type: "FlowScrapeNode",
+    type: "CrawlMindNode",
     dragHandle: ".drag-handle",
   };
 }

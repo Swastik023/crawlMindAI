@@ -22,7 +22,7 @@ import DeletableEdge from "./edges/DeletableEdge";
 import { TaskRegistry } from "@/lib/workflow/task/Registry";
 
 const nodeTypes = {
-  FlowScrapeNode: NodeComponent,
+  CrawlMindNode: NodeComponent,
 };
 const edgeTypes = {
   default: DeletableEdge,

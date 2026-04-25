@@ -1,4 +1,4 @@
-# Flow Scrape
+# CrawlMindAI
 
 This is a highly customizable web scraper built with Next.js 14, PostgreSQL, Prisma, and React Flow. It enables users to create, manage, and execute complex web scraping workflows with a visual, no-code/low-code interface. The scraper comes with advanced features such as AI-based data extraction
 
@@ -19,7 +19,7 @@ This is a highly customizable web scraper built with Next.js 14, PostgreSQL, Pri
 - PostgreSQL with Neon DB
 - Puppeteer
 - Prisma
-- [Live Url](https://flowscrape.kartikpawar.dev/)
+- [Live Url](https://crawlmindai.swastikagnihotri.cloud/)
 
 ## Features
 

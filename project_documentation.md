@@ -1,8 +1,8 @@
-# Flow Scrape (CrawlMindAI) - Technical Architecture & Deep Dive
+# CrawlMindAI - Technical Architecture & Deep Dive
 
 ## 1. PROJECT OVERVIEW
 
-**Problem Solved:** Traditional web scraping requires writing custom scripts, maintaining selectors, and dealing with blockers. Flow Scrape provides a visual, no-code/low-code platform to build, automate, and schedule complex web scraping pipelines, empowered by AI to handle dynamic or unstructured data extraction effortlessly.
+**Problem Solved:** Traditional web scraping requires writing custom scripts, maintaining selectors, and dealing with blockers. CrawlMindAI provides a visual, no-code/low-code platform to build, automate, and schedule complex web scraping pipelines, empowered by AI to handle dynamic or unstructured data extraction effortlessly.
 
 **System Type:** SaaS (Software as a Service) / AI Automation Platform / No-Code Visual Builder.
 

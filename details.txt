@@ -1,13 +1,13 @@
-# Flow-Scrape: Senior Technical Review & Reverse-Engineering
+# CrawlMindAI: Senior Technical Review & Reverse-Engineering
 
-This is a comprehensive, senior-level deep dive into the **Flow-Scrape** project. This guide is structured to help you understand the system inside and out, allowing you to confidently present it as your own in interviews.
+This is a comprehensive, senior-level deep dive into the **CrawlMindAI** project. This guide is structured to help you understand the system inside and out, allowing you to confidently present it as your own in interviews.
 
 ---
 
 ## PHASE 1: HIGH-LEVEL SYSTEM OVERVIEW
 
 ### Problem Statement
-Building reliable, automated web scrapers usually requires writing ad-hoc scripts that are hard to maintain, debug, and orchestrate. Non-technical users or data teams often struggle to build scrapers without developer intervention. **Flow-Scrape** solves this by providing a visual, node-based workflow builder (a "no-code" scraping engine) that allows users to string together complex scraping tasks without writing code.
+Building reliable, automated web scrapers usually requires writing ad-hoc scripts that are hard to maintain, debug, and orchestrate. Non-technical users or data teams often struggle to build scrapers without developer intervention. **CrawlMindAI** solves this by providing a visual, node-based workflow builder (a "no-code" scraping engine) that allows users to string together complex scraping tasks without writing code.
 
 ### Who are the users?
 - **Data Analysts / Researchers:** Need to extract structured data from websites without coding.
@@ -186,7 +186,7 @@ Think of the system as an **Assembly Line**. The `Environment` object is the con
 ### Pitching the Project
 
 **1-Minute Pitch:**
-> "I built Flow-Scrape, a visual workflow automation engine for web scraping. It allows users to build complex scraping pipelines using a node-based interface. Under the hood, it compiles the visual graph into an execution plan, orchestrates a stateful headless browser using Puppeteer, and integrates OpenAI to parse unstructured DOM elements into structured JSON. It's fully monetized with a credit system and supports scheduled cron executions."
+> "I built CrawlMindAI, a visual workflow automation engine for web scraping. It allows users to build complex scraping pipelines using a node-based interface. Under the hood, it compiles the visual graph into an execution plan, orchestrates a stateful headless browser using Puppeteer, and integrates OpenAI to parse unstructured DOM elements into structured JSON. It's fully monetized with a credit system and supports scheduled cron executions."
 
 **5-Minute Pitch:**
 > Add to the 1-minute pitch: "The most challenging part was designing the orchestration engine. I couldn't just run scripts sequentially. I had to build a topological sorting algorithm to validate that node dependencies (like 'Click Element' needing a 'Browser Instance' and 'URL') were met. I implemented an `Environment` context that passes state—like the active Puppeteer Page object and extracted data—between isolated executor functions. To handle scaling and monetization, I built a transactional credit system and implemented AES encryption to securely store user-provided API keys for the AI extraction steps."
